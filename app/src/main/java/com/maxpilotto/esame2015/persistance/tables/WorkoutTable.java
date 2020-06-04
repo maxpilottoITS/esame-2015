@@ -10,6 +10,6 @@ public class WorkoutTable implements BaseColumns {
     public static final String CREATE = "CREATE TABLE " + NAME + " (" +
             _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             COLUMN_LOCATION + " TEXT," +
-            COLUMN_DATE + " INT" +
+            COLUMN_DATE + " INTEGER" +
             ")";
 }
