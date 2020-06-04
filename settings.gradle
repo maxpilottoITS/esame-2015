@@ -1,0 +1,2 @@
+rootProject.name='Esame2015'
+include ':app'

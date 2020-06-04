@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Esame2015</string>
+    <string name="newWorkout">Nuovo allenamento</string>
+    <string name="workoutList">Elenco allenamenti</string>
+    <string name="totalWorkouts">Numbero totale allenamenti %d</string>
+    <string name="location">Luogo</string>
+    <string name="start">Avvia</string>
+    <string name="total">Totale</string>
+    <string name="cancel">Annulla</string>
+    <string name="stop">Stop</string>
+    <string name="lap">Lap</string>
+    <string name="length">Durata</string>
+    <string name="totalLength">Durata totale</string>
+    <string name="laps">Giri</string>
+    <string name="errorEmptyLocation">Il luogo non può essere vuoto</string>
+</resources>
