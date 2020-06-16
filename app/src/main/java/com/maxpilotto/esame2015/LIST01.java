@@ -14,7 +14,9 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
 import com.maxpilotto.esame2015.adapters.WorkoutAdapter;
+import com.maxpilotto.esame2015.dialogs.DeleteDialog;
 import com.maxpilotto.esame2015.persistance.WorkoutProvider;
+import com.maxpilotto.esame2015.persistance.tables.LapTable;
 import com.maxpilotto.esame2015.persistance.tables.WorkoutTable;
 
 public class LIST01 extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -38,6 +40,16 @@ public class LIST01 extends AppCompatActivity implements LoaderManager.LoaderCal
             i.putExtra(LIST02.ID_EXTRA,id);
 
             startActivity(i);
+        });
+        list.setOnItemLongClickListener((parent, view, position, id) -> {
+            new DeleteDialog()
+                    .setCallback(() -> {
+                        getContentResolver().delete(WorkoutProvider.URI_WORKOUTS,WorkoutTable._ID + "=" + id,null);
+                        getContentResolver().delete(WorkoutProvider.URI_LAPS, LapTable.COLUMN_WORKOUT + "=" + id,null);
+                    })
+                    .show(getSupportFragmentManager(),null);
+
+            return true;
         });
 
         getSupportLoaderManager().initLoader(LOADER_ID,null,this);

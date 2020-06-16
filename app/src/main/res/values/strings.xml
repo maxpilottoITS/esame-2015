@@ -13,4 +13,9 @@
     <string name="totalLength">Durata totale</string>
     <string name="laps">Giri</string>
     <string name="errorEmptyLocation">Il luogo non può essere vuoto</string>
+    <string name="removeWorkout">Delete workout</string>
+    <string name="deleteWorkoutMsg">The selected workout will be deleted, are you sure?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="deleteWorkout">Delete workout?</string>
 </resources>
