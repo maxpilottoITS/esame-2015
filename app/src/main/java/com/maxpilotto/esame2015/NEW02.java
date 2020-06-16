@@ -95,8 +95,10 @@ public class NEW02 extends AppCompatActivity {
 
             int id = Integer.parseInt(getContentResolver().insert(WorkoutProvider.URI_WORKOUTS, workout).getLastPathSegment());
 
-            for (ContentValues values : laps) {
-                values.put(LapTable.COLUMN_WORKOUT,id);
+            for (int i = 0; i < laps.size(); i++) {
+                ContentValues values = laps.get(i);
+                values.put(LapTable.COLUMN_WORKOUT, id);
+                values.put(LapTable.COLUMN_NAME,getString(R.string.lap) + " " + (i + 1));
 
                 getContentResolver().insert(WorkoutProvider.URI_LAPS, values);
             }
