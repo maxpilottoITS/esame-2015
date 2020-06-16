@@ -9,18 +9,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NEW01 extends AppCompatActivity {
-    private TextView location;
+    private TextView locationTv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new01);
 
-        location = findViewById(R.id.location);
+        locationTv = findViewById(R.id.location);
 
         findViewById(R.id.start).setOnClickListener(v -> {
             Intent i = new Intent(this,NEW02.class);
-            String s = location.getText().toString();
+            String s = locationTv.getText().toString();
 
             if (s.isEmpty()) {
                 Toast.makeText(this,getString(R.string.errorEmptyLocation),Toast.LENGTH_LONG).show();

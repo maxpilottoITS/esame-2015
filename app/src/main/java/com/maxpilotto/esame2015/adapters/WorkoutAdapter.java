@@ -31,23 +31,10 @@ public class WorkoutAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date(cursor.getLong(cursor.getColumnIndex(WorkoutTable.COLUMN_DATE))));
         String location = cursor.getString(cursor.getColumnIndex(WorkoutTable.COLUMN_LOCATION));
-        long total = 0;
+        long time = cursor.getLong(cursor.getColumnIndex(WorkoutTable.COLUMN_TOTAL_TIME));
 
         ((TextView)view.findViewById(R.id.location)).setText(location);
         ((TextView)view.findViewById(R.id.date)).setText(date);
-
-        Cursor laps = context.getContentResolver().query(
-                WorkoutProvider.URI_LAPS,
-                null,
-                LapTable.COLUMN_WORKOUT + "=" + cursor.getInt(cursor.getColumnIndex(WorkoutTable._ID)),
-                null,
-                null
-        );
-
-        while (laps.moveToNext()) {
-            total += laps.getInt(laps.getColumnIndex(LapTable.COLUMN_TIME));
-        }
-
-        ((TextView)view.findViewById(R.id.time)).setText(Util.formatTime(total));
+        ((TextView)view.findViewById(R.id.time)).setText(Util.formatTime(time));
     }
 }

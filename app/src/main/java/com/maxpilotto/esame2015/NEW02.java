@@ -55,12 +55,15 @@ public class NEW02 extends AppCompatActivity {
 
         locationTv.setText(location);
 
+        if (getIntent() != null) {
+            location = getIntent().getStringExtra(LOCATION_EXTRA);
+        }
+
         if (savedInstanceState != null) {
             long lastTime = savedInstanceState.getLong(LAST_TIME_EXTRA, 0);
 
             time = savedInstanceState.getLong(TIME_EXTRA, 0);
             time += (System.currentTimeMillis() / 1000) - lastTime;
-            location = savedInstanceState.getString(LOCATION_EXTRA);
         }
 
         task = new Runnable() {
