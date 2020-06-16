@@ -9,8 +9,6 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.maxpilotto.esame2015.R;
-import com.maxpilotto.esame2015.persistance.WorkoutProvider;
-import com.maxpilotto.esame2015.persistance.tables.LapTable;
 import com.maxpilotto.esame2015.persistance.tables.WorkoutTable;
 import com.maxpilotto.esame2015.util.Util;
 

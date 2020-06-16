@@ -69,8 +69,8 @@ public class NEW02 extends AppCompatActivity {
         task = new Runnable() {
             @Override
             public void run() {
-                timeTv.setText(Util.formatTime(++time));
-                totalTimeTv.setText(Util.formatTime(++totalTime));
+                timeTv.setText(Util.formatTime(time++));
+                totalTimeTv.setText(Util.formatTime(totalTime++));
 
                 handler.postDelayed(this, 1000);
             }
