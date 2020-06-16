@@ -1,31 +1,38 @@
 package com.maxpilotto.esame2015;
 
-import android.content.Intent;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.maxpilotto.esame2015.persistance.WorkoutProvider;
+import com.maxpilotto.esame2015.persistance.tables.LapTable;
+import com.maxpilotto.esame2015.persistance.tables.WorkoutTable;
 import com.maxpilotto.esame2015.util.Util;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class NEW02 extends AppCompatActivity {
     public static final String LOCATION_EXTRA = "location.extra";
     public static final String TIME_EXTRA = "time.extra";
     public static final String LAST_TIME_EXTRA = "last_time.extra";
 
-    private FrameLayout frameLayout;
-    private TextView location;
-    private TextView currentTime;
-    private TextView totalTime;
-    private String currentLocation;
+    private TextView locationTv;
+    private TextView timeTv;
+    private TextView totalTimeTv;
+    private String location;
     private Handler handler;
     private long time = 0;
+    private long totalTime = 0;
     private Runnable task;
+    private List<ContentValues> laps;
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -40,43 +47,61 @@ public class NEW02 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new02);
 
-        location = findViewById(R.id.location);
-        currentTime = findViewById(R.id.currentTime);
-        totalTime = findViewById(R.id.totalTime);
-        frameLayout = findViewById(R.id.frameLayout);
+        locationTv = findViewById(R.id.location);
+        timeTv = findViewById(R.id.currentTime);
+        totalTimeTv = findViewById(R.id.totalTime);
         handler = new Handler();
+        laps = new ArrayList<>();
 
-        location.setText(currentLocation);
+        locationTv.setText(location);
 
         if (savedInstanceState != null) {
             long lastTime = savedInstanceState.getLong(LAST_TIME_EXTRA, 0);
 
             time = savedInstanceState.getLong(TIME_EXTRA, 0);
-
-            Log.d("TAG", "Loaded time: " + time);
-
             time += (System.currentTimeMillis() / 1000) - lastTime;
-
-            Log.d("TAG", "Last time: " + lastTime);
-            Log.d("TAG", "Actual time: " + time);
-
-            currentLocation = savedInstanceState.getString(LOCATION_EXTRA);
+            location = savedInstanceState.getString(LOCATION_EXTRA);
         }
 
         task = new Runnable() {
             @Override
             public void run() {
-                totalTime.setText(Util.formatTime(++time));
+                timeTv.setText(Util.formatTime(++time));
+                totalTimeTv.setText(Util.formatTime(++totalTime));
 
                 handler.postDelayed(this, 1000);
             }
         };
-        handler.postDelayed(task,1000);
+        handler.postDelayed(task, 1000);
 
         findViewById(R.id.lap).setOnClickListener(v -> {
-            //TODO Salva il giro con time = this.time
+            ContentValues lap = new ContentValues();
+            lap.put(LapTable.COLUMN_TIME, time);
 
+            laps.add(lap);
             time = 0;
+            timeTv.setText("00:00");
+        });
+        findViewById(R.id.stop).setOnClickListener(v -> {
+            findViewById(R.id.lap).callOnClick();
+
+            ContentValues workout = new ContentValues();
+            workout.put(WorkoutTable.COLUMN_LOCATION, location);
+            workout.put(WorkoutTable.COLUMN_DATE, new Date().getTime());
+            workout.put(WorkoutTable.COLUMN_TOTAL_TIME, totalTime);
+
+            int id = Integer.parseInt(getContentResolver().insert(WorkoutProvider.URI_WORKOUTS, workout).getLastPathSegment());
+
+            for (ContentValues values : laps) {
+                values.put(LapTable.COLUMN_WORKOUT,id);
+
+                getContentResolver().insert(WorkoutProvider.URI_LAPS, values);
+            }
+
+            finish();
+        });
+        findViewById(R.id.cancel).setOnClickListener(v -> {
+            finish();
         });
     }
 }

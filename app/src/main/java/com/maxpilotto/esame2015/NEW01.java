@@ -31,6 +31,7 @@ public class NEW01 extends AppCompatActivity {
             i.putExtra(NEW02.LOCATION_EXTRA,s);
 
             startActivity(i);
+            finish();
         });
     }
 }
