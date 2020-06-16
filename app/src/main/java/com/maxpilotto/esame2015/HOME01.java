@@ -3,7 +3,6 @@ package com.maxpilotto.esame2015;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
 

@@ -3,6 +3,7 @@ package com.maxpilotto.esame2015;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -47,14 +48,19 @@ public class NEW02 extends AppCompatActivity {
 
         location.setText(currentLocation);
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            long lastTime = intent.getLongExtra(LAST_TIME_EXTRA, 0);
+        if (savedInstanceState != null) {
+            long lastTime = savedInstanceState.getLong(LAST_TIME_EXTRA, 0);
 
-            time = intent.getLongExtra(TIME_EXTRA, 0);
+            time = savedInstanceState.getLong(TIME_EXTRA, 0);
+
+            Log.d("TAG", "Loaded time: " + time);
+
             time += (System.currentTimeMillis() / 1000) - lastTime;
 
-            currentLocation = intent.getStringExtra(LOCATION_EXTRA);
+            Log.d("TAG", "Last time: " + lastTime);
+            Log.d("TAG", "Actual time: " + time);
+
+            currentLocation = savedInstanceState.getString(LOCATION_EXTRA);
         }
 
         task = new Runnable() {
